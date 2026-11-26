@@ -1,12 +1,9 @@
-/* SocialNET - integração da interface com o backend Flask (Fetch API).
-   Cada função iniciar...() só age se os elementos da sua página existirem. */
 (function () {
     "use strict";
 
     var TIPOS_IMAGEM = ["image/jpeg", "image/png", "image/gif", "image/webp"];
     var MAX_IMAGEM = 5 * 1024 * 1024;
 
-    /* ---------- utilitários ---------- */
     function $(seletor, raiz) { return (raiz || document).querySelector(seletor); }
 
     function csrf() {
@@ -14,7 +11,6 @@
         return meta ? meta.content : "";
     }
 
-    // Aviso flutuante (não altera o layout das telas). Usa textContent: nunca interpreta HTML.
     function avisar(texto, tipo) {
         var antigo = $(".aviso");
         if (antigo) { antigo.remove(); }
@@ -26,7 +22,6 @@
         setTimeout(function () { el.remove(); }, 4000);
     }
 
-    // fetch + JSON + tratamento de erros. opcoes: { method, json, form }
     function api(url, opcoes) {
         opcoes = opcoes || {};
         var config = {
@@ -38,7 +33,7 @@
             config.headers["Content-Type"] = "application/json";
             config.body = JSON.stringify(opcoes.json);
         } else if (opcoes.form) {
-            config.body = opcoes.form; // FormData: o navegador define o Content-Type
+            config.body = opcoes.form; //
         }
         return fetch(url, config).then(function (resp) {
             return resp.json().catch(function () { return {}; }).then(function (dados) {
@@ -55,7 +50,6 @@
         });
     }
 
-    // Valida e mostra a prévia da imagem escolhida na própria imagem da tela
     function ligarSeletorImagem(areaClicavel, inputArquivo, imgPrevia) {
         areaClicavel.forEach(function (el) {
             el.addEventListener("click", function () { inputArquivo.click(); });
@@ -79,7 +73,6 @@
 
     function irPara(url) { window.location.href = url; }
 
-    /* ---------- todas as páginas ---------- */
     function iniciarSair() {
         var link = $("#linkSair");
         if (!link) { return; }
@@ -91,7 +84,7 @@
         });
     }
 
-    // elementos clicáveis que levam a outra página (clubes, caixas de "Criar")
+    // elementos clicaveis
     function iniciarLinksPorData() {
         document.querySelectorAll("[data-href]").forEach(function (el) {
             if (el.tagName !== "BUTTON") {
@@ -105,13 +98,13 @@
         });
     }
 
-    /* ---------- index ---------- */
+    /*  index */
     function iniciarIndex() {
         var botao = $("#botaoEntrar");
         if (botao) { botao.addEventListener("click", function () { irPara("/telaHome.html"); }); }
     }
 
-    /* ---------- login ---------- */
+    /*  login  */
     function iniciarLogin() {
         var form = $("#formLogin");
         if (!form) { return; }
@@ -131,7 +124,7 @@
         });
     }
 
-    /* ---------- cadastro ---------- */
+    /*  cadastro */
     function iniciarCadastro() {
         var form = $("#formCadastro");
         if (!form) { return; }
@@ -153,7 +146,7 @@
         });
     }
 
-    /* ---------- home ---------- */
+    /*  home  */
     function iniciarHome() {
         var filtro = $("#filtroClubes");
         if (!filtro) { return; }
@@ -165,7 +158,7 @@
         });
     }
 
-    /* ---------- lista de clubes (busca) ---------- */
+    /*  lista de clubes (busca)  */
     function iniciarBuscaClubes() {
         var campo = $("#campoBusca");
         if (!campo) { return; }
@@ -177,7 +170,7 @@
         campo.addEventListener("keydown", function (e) { if (e.key === "Enter") { buscar(); } });
     }
 
-    /* ---------- descrição do clube (entrar / sair) ---------- */
+    /*  descrição do clube (entrar / sair)  */
     function iniciarDescricaoClube() {
         var botao = $("#descClubeAbsolute");
         if (!botao || !botao.dataset.id) { return; }
@@ -252,7 +245,7 @@
         });
     }
 
-    /* ---------- criar clube / criar postagem (mesmo layout) ---------- */
+    /*  criar clube / criar postagem (mesmo layout) */
     function iniciarCriarClube() {
         var botao = $("#criarPostagemAbsolute[data-tipo='clube']");
         if (!botao) { return; }

@@ -965,7 +965,6 @@ footer {
     }
 }
 
-/* aviso flutuante (erros e confirmações das ações), sem alterar o layout das telas */
 .aviso {
     position: fixed;
     left: 50%;
