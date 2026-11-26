@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>SocialNET - Clubes!</title>
+
+    <script src="script.js" defer></script>
+    <link rel="stylesheet" href="style.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Bitcount+Single:wght@100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+
+
+</head>
+<body>
+<main>
+
+    <header class="cabecalho">
+
+        <figure>
+            <img src="/img/logoHeader.png" alt="Logo">
+
+        </figure>
+        <ul>
+            <li><a href="/telaHome.html"; class="btn" style="color:#5E17EB">HOME</a></li>
+            <li><a href="/telaClubes.html"; class="btn" style="color:#8a868b">CLUBES</a></li>
+            <li><a href="/telaCriar.html"; class="btn" style="color:#8a868b">CRIAR</a></li>
+            <li><a href="#"; id="linkSair" class="btn" style="color:#8a868b">SAIR</a></li>
+        </ul>
+
+    </header>
+    
+    <article id="criarPostagem">
+        <figure id="criarPostagemId">
+            <h1>SELECIONE UMA IMAGEM:</h1>
+            <img src="img/templatevazio.png" alt="imgTemplate" id="imagemPostagem" title="Clique para escolher uma imagem">
+            <input type="file" id="in_imagem" accept="image/png,image/jpeg,image/gif,image/webp" hidden>
+        </figure>
+
+        <div>
+            <div id="criarPostagemRelative">
+                <input type="text" placeholder="Escrever postagem" id="escreverPostagem" maxlength="1000">
+                <input type="text" placeholder="Escolher Clube" id="escolherClube" list="clubesDoUsuario" maxlength="40" value="{{ clube_inicial }}" autocomplete="off">
+                <datalist id="clubesDoUsuario">
+                    {% for c in meus_clubes %}<option value="{{ c.nome }}">{% endfor %}
+                </datalist>
+                <button id="criarPostagemAbsolute">ENTRAR</button>
+            </div>
+            
+        </div>
+    </article>
+
+    <footer>
+        <p>2026 - @SocialNET todos os direitos reservados</p>
+    </footer>
+
+</main>
+</body>
+</html>

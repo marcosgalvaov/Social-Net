@@ -1,0 +1,9 @@
+.env
+__pycache__/
+*.pyc
+venv/
+.venv/
+uploads/posts/*
+uploads/perfis/*
+uploads/clubes/*
+!uploads/**/.gitkeep

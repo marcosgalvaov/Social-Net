@@ -1,0 +1,6 @@
+Flask>=3.0
+PyMySQL>=1.1
+# Necessário para o PyMySQL autenticar em MySQL 8+ (caching_sha2_password)
+cryptography>=42
+# Carrega as variáveis do arquivo .env (credenciais fora do código)
+python-dotenv>=1.0

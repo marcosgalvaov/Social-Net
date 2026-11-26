@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>SocialNET - Feed!</title>
+
+    <script src="script.js" defer></script>
+    <link rel="stylesheet" href="style.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Bitcount+Single:wght@100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+
+
+</head>
+<body>
+<main>
+
+    <header class="cabecalho">
+
+        <figure>
+            <img src="/img/logoHeader.png" alt="Logo">
+
+        </figure>
+        <ul>
+            <li><a href="/telaHome.html"; class="btn" style="color:#5E17EB">HOME</a></li>
+            <li><a href="/telaClubes.html"; class="btn" style="color:#8a868b">CLUBES</a></li>
+            <li><a href="/telaCriar.html"; class="btn" style="color:#8a868b">CRIAR</a></li>
+            <li><a href="#"; id="linkSair" class="btn" style="color:#8a868b">SAIR</a></li>
+        </ul>
+
+    </header>
+
+    <div id="layoutFeed">
+
+        <aside id="menuFeed">
+            {% if clube %}
+            <a href="/tela-desc-clube.html?id={{ clube.id_comunidade }}" class="botaoRoxo pilulaClube" title="Sobre o clube">{{ clube.nome|upper }}</a>
+            {% if membro %}
+            <a href="/tela-criar-postagem.html?clube={{ clube.id_comunidade }}" class="botaoRoxo pilulaPostar">POSTAR</a>
+            {% endif %}
+            {% else %}
+            <span class="botaoRoxo pilulaClube">FEED</span>
+            <a href="/tela-criar-postagem.html" class="botaoRoxo pilulaPostar">POSTAR</a>
+            {% endif %}
+        </aside>
+
+        <section id="listaPostagens" data-feed>
+            {% for p in publicacoes %}
+            <article class="postagem" data-id="{{ p.id_publicacao }}">
+                <div class="postagemTopo">
+                    <img class="postagemAvatar" src="{{ foto_url(p.foto_perfil) }}" alt="fotoPerfil">
+                    <div class="postagemInfo">
+                        <span class="postagemAutor">{{ p.username }}</span>
+                        <span class="postagemData">{{ p.data_publicacao|datahora }}{% if not clube %} &middot; <a class="postagemClube" href="/telaFeed.html?clube={{ p.id_comunidade }}">{{ p.comunidade|upper }}</a>{% endif %}</span>
+                    </div>
+                    {% if p.id_autor == usuario.id_usuario %}
+                    <button class="botaoExcluir" data-acao="excluir-postagem">EXCLUIR</button>
+                    {% endif %}
+                </div>
+
+                {% for caminho in p.imagens %}
+                <img class="postagemImagem" src="{{ url_upload(caminho) }}" alt="Imagem da postagem">
+                {% endfor %}
+                {% if p.texto %}<p class="postagemTexto">{{ p.texto }}</p>{% endif %}
+
+                <div class="postagemAcoes">
+                    <button class="botaoCurtir{{ ' curtido' if p.curtiu else '' }}" data-acao="curtir"
+                            aria-label="Curtir" aria-pressed="{{ 'true' if p.curtiu else 'false' }}">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l2.94 5.96 6.56.95-4.75 4.63 1.12 6.53L12 17.5l-5.87 3.07 1.12-6.53L2.5 9.41l6.56-.95L12 2.5z"/></svg>
+                        <span class="contadorCurtidas">{{ p.total_curtidas }}</span>
+                    </button>
+                    <button class="botaoComentarios" data-acao="comentarios" aria-label="Comentários">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 3h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H9l-5 4v-4H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/></svg>
+                        <span class="contadorComentarios">{{ p.total_comentarios }}</span>
+                    </button>
+                </div>
+
+                <div class="postagemComentarios" hidden>
+                    <ul class="listaComentarios"></ul>
+                    <div class="novoComentario">
+                        <input type="text" placeholder="Escrever comentário" maxlength="500">
+                        <button class="botaoRoxo" data-acao="enviar-comentario">ENVIAR</button>
+                    </div>
+                </div>
+            </article>
+            {% else %}
+            <p class="feedVazio">
+                {% if clube %}
+                    Ainda não há postagens neste clube.{% if membro %} Seja o primeiro a publicar!{% endif %}
+                {% elif not tem_clubes %}
+                    Você ainda não participa de nenhum clube. <a href="/telaClubes.html">Encontre um agora!</a>
+                {% else %}
+                    Ainda não há postagens nos seus clubes.
+                {% endif %}
+            </p>
+            {% endfor %}
+
+            {% if tem_mais %}
+            <div class="acoesFeed">
+                <a class="botaoRoxo"
+                   href="/telaFeed.html?{% if clube %}clube={{ clube.id_comunidade }}&amp;{% endif %}pagina={{ pagina + 1 }}">VER MAIS</a>
+            </div>
+            {% endif %}
+        </section>
+
+    </div>
+
+    <footer>
+        <p>2026 - @SocialNET todos os direitos reservados</p>
+    </footer>
+
+</main>
+</body>
+</html>
