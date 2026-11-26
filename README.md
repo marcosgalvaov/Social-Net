@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # SocialNET
 
 Rede social simplificada: cadastro/login, clubes (comunidades), postagens com imagem, feeds, curtidas e comentários.
@@ -69,3 +70,6 @@ API (JSON): `POST /api/auth/cadastro|login|logout`, `GET /api/auth/me`,
 - Servidor de desenvolvimento do Flask; para produção use um servidor WSGI + HTTPS e `SESSION_COOKIE_SECURE=1`.
 - Datas usam o fuso do servidor MySQL.
 - Não há exclusão/edição de clubes nem moderação.
+=======
+# Social-Net
+>>>>>>> 0a77b836b7ee3f75bd1d1c934dafddb61954d4a9
